@@ -51,7 +51,12 @@ public class CartController
     @ResponseBody
     public String cart()
     {
-        String cart = this.cart.getCartItems().stream().map(i -> i.toString()).collect(Collectors.joining(","));
-        return cart;
+        List<CartItem> cartItems = this.cart.getCartItems();
+        String cart = cartItems.stream().map(i -> i.toString()).collect(Collectors.joining(","));
+        StringBuilder sb = new StringBuilder(cart);
+        sb.append("\nPozycji w koszyku: ").append(cartItems.size());
+        sb.append("\nWszystkich produktów: ").append(cartItems.stream().mapToInt(el -> el.getQuantity()).sum());
+        sb.append("\nDo zapłąty: ").append(cartItems.stream().mapToDouble(el -> (el.getQuantity() * el.getProduct().getPrice())).sum());
+        return sb.toString();
     }
 }
