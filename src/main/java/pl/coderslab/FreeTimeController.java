@@ -2,15 +2,17 @@ package pl.coderslab;
 
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 
 @Controller
+@RequestMapping(value = "/first", produces = "text/html; charset=UTF-8")
 public class FreeTimeController
 {
-    @RequestMapping("/freetime") // post i get
+    @RequestMapping(value = "/freetime", produces = "text/html; charset=UTF-8") // post i get
     @ResponseBody
     public String freeTime()
     {
@@ -33,7 +35,21 @@ public class FreeTimeController
                 return "Po pracy";
             }
         }
+    }
 
+
+    @GetMapping(value = "/form", produces = "text/html; charset=UTF-8")
+    public String formularz(HttpServletRequest request)
+    {
+        return "form";
+    }
+
+    @PostMapping(value = "/form", produces = "text/html; charset=UTF-8")
+    public String formularz2(Model model, @RequestParam String paramName, HttpServletRequest request)
+    {
+        model.addAttribute("pName", paramName);
+        return formularz(request);
 
     }
+
 }

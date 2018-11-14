@@ -29,7 +29,7 @@ public class HomeController
     @RequestMapping("/hello2")
     public String index2()
     {
-        return "/view/index.jsp";
+        return "index";
     }
 
 
